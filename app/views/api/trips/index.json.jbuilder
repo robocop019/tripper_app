@@ -1,0 +1,1 @@
+json.array! @flights, partial: 'trip', as: :flight
