@@ -1,0 +1,1 @@
+json.partial! @flight, partial: 'flight', as: :flight
