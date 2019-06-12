@@ -1,6 +1,7 @@
 class Api::TripsController < ApplicationController
   def index
     @flights = Flight.all
+    render 'index.json.jbuilder'
   end
 
   def create
