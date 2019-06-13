@@ -5,7 +5,7 @@ class Api::TripsController < ApplicationController
   end
 
   def create
-    if current_user.is_employee 
+    if current_user && user.is_employee  
       @flight = Flight.new(
                           status: params[:status], 
                           airline: params[:airline],
@@ -28,7 +28,7 @@ class Api::TripsController < ApplicationController
   end
 
   def update
-    if current_user.is_employee
+    if current_user && user_type
       @flight = Flight.find(params[:id]) 
       
       @flight.status = params[:status] || @flight.status
@@ -48,7 +48,7 @@ class Api::TripsController < ApplicationController
   end
 
   def destroy
-    if current_user.is_employee 
+    if current_user && user_type
       @flight = Flight.find(params[:id])
       @flight.destroy 
       render json: {message: "Deleted"} 
