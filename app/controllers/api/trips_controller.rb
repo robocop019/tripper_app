@@ -5,7 +5,7 @@ class Api::TripsController < ApplicationController
   end
 
   def create
-    # if users.is_employee 
+    if current_user.is_employee 
       @flight = Flight.new(
                           status: params[:status], 
                           airline: params[:airline],
@@ -17,9 +17,9 @@ class Api::TripsController < ApplicationController
                           )
       @flight.save
       render 'show.json.jbuilder'
-    # else  
-      # render json: {message: "You are not authorized"}, status: :unprocessable_entity
-    # end 
+    else  
+      render json: {message: "You are not authorized"}, status: :unprocessable_entity
+    end 
   end
 
   def show
@@ -28,27 +28,33 @@ class Api::TripsController < ApplicationController
   end
 
   def update
-    @flight = Flight.find(params[:id]) 
-    
-    @flight.status = params[:status] || @flight.status
-    @flight.airline = params[:airline] || @flight.airline
-    @flight.arrival_time = params[:arrival_time] || @flight.arrival_time
-    @flight.departure_time = params[:departure_time] || @flight.departure_time 
-    @flight.arrival_airport = params[:arrival_airport] || @flight.arrival_airport
-    @flight.departure_airport = params[:departure_airport] || @flight.departure_airport
-    @flight.boarding_time = params[:boarding_time] || @flight.boarding_time 
+    if current_user.is_employee
+      @flight = Flight.find(params[:id]) 
+      
+      @flight.status = params[:status] || @flight.status
+      @flight.airline = params[:airline] || @flight.airline
+      @flight.arrival_time = params[:arrival_time] || @flight.arrival_time
+      @flight.departure_time = params[:departure_time] || @flight.departure_time 
+      @flight.arrival_airport = params[:arrival_airport] || @flight.arrival_airport
+      @flight.departure_airport = params[:departure_airport] || @flight.departure_airport
+      @flight.boarding_time = params[:boarding_time] || @flight.boarding_time 
 
-    if @flight.save 
-      render 'show.json.jbuilder' 
+    @flight.save 
+    render 'show.json.jbuilder' 
+    
     else 
       render json: {message: @flight.errors.full_messages}, status: :unprocessable_entity
     end 
   end
 
   def destroy
-    @flight = Flight.find(params[:id])
-    @flight.destroy 
-
-    render json: {message: "Deleted"} 
+    if current_user.is_employee 
+      @flight = Flight.find(params[:id])
+      @flight.destroy 
+      render json: {message: "Deleted"} 
+    else 
+      render json: {message: "You are an unauthorized user"}
+    end 
   end
 end
+
