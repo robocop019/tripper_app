@@ -18,5 +18,9 @@ class ApplicationController < ActionController::Base
       end
     end
   end
+
+  def user_type 
+    @user = User.find(params[:id]) 
+  end 
   helper_method :current_user
 end
