@@ -15,6 +15,7 @@ class Api::TripsController < ApplicationController
                           departure_airport: params[:departure_airport],
                           boarding_time: params[:boarding_time]
                           )
+                          
       @flight.save
       render 'show.json.jbuilder'
     else  
