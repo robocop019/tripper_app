@@ -3,3 +3,7 @@ json.iata airport.iata
 json.name airport.name
 json.long airport.lon
 json.lat airport.lat
+
+# json.lodging do 
+  @hotel
+# end 

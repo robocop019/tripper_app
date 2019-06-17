@@ -5,7 +5,7 @@ class Api::TripsController < ApplicationController
   end
 
   def create
-    if current_user && user.is_employee  
+    # if current_user && user.is_employee  
       @flight = Flight.new(
                           status: params[:status], 
                           airline: params[:airline],
@@ -14,8 +14,9 @@ class Api::TripsController < ApplicationController
                           arrival_airport: params[:arrival_airport],
                           departure_airport: params[:departure_airport],
                           boarding_time: params[:boarding_time]
-                          )
-      @flight.save
+                        )
+                          
+    if @flight.save
       render 'show.json.jbuilder'
     else  
       render json: {message: "You are not authorized"}, status: :unprocessable_entity
@@ -28,7 +29,7 @@ class Api::TripsController < ApplicationController
   end
 
   def update
-    if current_user && user_type
+    # if current_user && user_type
       @flight = Flight.find(params[:id]) 
       
       @flight.status = params[:status] || @flight.status
@@ -39,7 +40,7 @@ class Api::TripsController < ApplicationController
       @flight.departure_airport = params[:departure_airport] || @flight.departure_airport
       @flight.boarding_time = params[:boarding_time] || @flight.boarding_time 
 
-    @flight.save 
+    if @flight.save 
     render 'show.json.jbuilder' 
     
     else 
@@ -48,13 +49,13 @@ class Api::TripsController < ApplicationController
   end
 
   def destroy
-    if current_user && user_type
+    # if current_user && user_type
       @flight = Flight.find(params[:id])
       @flight.destroy 
       render json: {message: "Deleted"} 
-    else 
-      render json: {message: "You are an unauthorized user"}
-    end 
+    # else 
+      # render json: {message: "You are an unauthorized user"}
+    # end 
   end
 end
 

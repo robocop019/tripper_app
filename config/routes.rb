@@ -4,7 +4,7 @@ Rails.application.routes.draw do
     post '/trips' => 'trips#create'
     get '/trips/:id' => 'trips#show'
     patch '/trips/:id' => 'trips#update'
-    delete '/trips/:iata' => 'trips#destroy'
+    delete '/trips/:id' => 'trips#destroy'
 
     get '/airports' => 'airports#index'
     get '/airports/:iata' => 'airports#show'
