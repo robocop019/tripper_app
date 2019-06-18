@@ -19,7 +19,8 @@ class Api::TripsController < ApplicationController
     if @flight.save
       render 'show.json.jbuilder'
     else  
-      render json: {message: "You are not authorized"}, status: :unprocessable_entity
+      # render json: {message: "You are not authorized"}, status: :unprocessable_entity
+      render json: {message: @flight.errors.full_messages }
     end 
   end
 
